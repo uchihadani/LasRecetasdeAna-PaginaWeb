@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="{% static 'comidas/style.css' %}">
+    <title>Pagina Web de Matilde</title>
+</head>
+<body>
+    <h1>Bienvenidos a Las Recetas de Ana</h1>
+    <p>Pronto encontraras los mejores y mas saludables platos</p>
+
+    <h2>Menu destacado</h2>
+
+    <div class="menu-grid">
+        {% for plato in platos %}
+            <div class="tarjeta">
+                <div class="tarjeta-header">
+                    <h3>{{ plato.nombre }}</h3>
+                </div>
+                <div class="tarjeta-body">
+                    <p class="descripcion">{{ plato.descripcion }}</p>
+                    <span class="precio">${{ plato.precio }}</span>
+                </div>
+            </div>
+        {% empty %}
+            <p>No hay platos disponibles por el momento. ¡Vuelve pronto!</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

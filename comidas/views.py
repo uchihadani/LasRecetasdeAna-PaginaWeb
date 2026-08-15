@@ -1,6 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from .models import Plato
 
 # Create your views here.
-def inicio(request):
-    return HttpResponse("Bienvenido a la página de recetas de Ana")
+def inicio(_request):
+    """Display the welcome page for Ana's recipes."""
+    platos = Plato._default_manager.all()
+    return render(_request, 'comidas/index.html', {'platos': platos})
