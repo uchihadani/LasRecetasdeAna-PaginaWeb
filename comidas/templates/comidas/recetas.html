@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recetas Saludables - Las Recetas de Ana</title>
+    <link rel="stylesheet" href="{% static 'comidas/style.css' %}">
+</head>
+<body>
+
+    <!-- HEADER / NAVEGACIÓN -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-icon">🌱</span>
+                <span class="logo-text">Las Recetas de Ana</span>
+            </div>
+            <nav class="main-nav">
+                <a href="{% url 'inicio' %}">Inicio</a>
+                <a href="{% url 'inicio' %}#menu">Menú</a>
+                <a href="{% url 'inicio' %}#nosotros">Nosotros</a>
+                <a href="{% url 'lista_recetas' %}" class="active">Recetas</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="menu-section">
+            <div class="section-header">
+                <h2>Nuestras Recetas Saludables</h2>
+                <p>Inspírate con estas preparaciones pensadas para tu bienestar</p>
+            </div>
+
+            <!-- Grilla de recetas -->
+            <div class="menu-grid">
+                {% for receta in recetas %}
+                    <article class="plato-card">
+                        <div class="card-media">
+                            {% if receta.foto %}
+                                <img src="{{ receta.foto.url }}" alt="{{ receta.nombre }}">
+                            {% else %}
+                                <img src="{% static 'comidas/images/default-food.jpg' %}" alt="Receta saludable">
+                            {% endif %}
+                        </div>
+                        <div class="card-content">
+                            <h3>{{ receta.nombre }}</h3>
+                            
+                            <div style="margin-top: 10px;">
+                                <strong>Ingredientes:</strong>
+                                <p class="descripcion" style="white-space: pre-line;">{{ receta.ingredientes }}</p>
+                            </div>
+
+                            <div style="margin-top: 10px;">
+                                <strong>Preparación:</strong>
+                                <p class="descripcion" style="white-space: pre-line;">{{ receta.preparacion }}</p>
+                            </div>
+                        </div>
+                    </article>
+                {% empty %}
+                    <p class="no-platos" style="grid-column: 1 / -1; text-align: center;">No hay recetas publicadas por el momento. ¡Pronto subiremos más contenido!</p>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h3>🌱 Las Recetas de Ana</h3>
+                <p>Comida especializada para tu salud y estilo de vida.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Las Recetas de Ana. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
