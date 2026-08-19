@@ -5,7 +5,231 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recetas Saludables - Las Recetas de Ana</title>
-    <link rel="stylesheet" href="{% static 'comidas/style.css' %}">
+    
+    <style>
+        :root {
+            --green-primary: #236339;
+            --green-dark: #194828;
+            --green-light: #eaf3ed;
+            --orange-primary: #ff6b00;
+            --bg-body: #f7faf8;
+            --text-dark: #2d3748;
+            --text-muted: #718096;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+    
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- HEADER Y NAVEGACIÓN RESPONSIVE --- */
+        .main-header {
+            position: sticky;
+            top: 0;
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+            padding: 15px 0;
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .logo-text { font-weight: bold; font-size: 1.2rem; color: var(--green-primary); }
+        .main-nav { display: flex; gap: 20px; }
+        .main-nav a { text-decoration: none; color: var(--text-dark); font-weight: 500; }
+        .main-nav a.active { color: var(--green-primary); font-weight: bold; }
+        
+        /* Botón de Menú Hamburguesa para Celular */
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--green-primary);
+        }
+
+        /* --- CONTENIDO DE RECETAS --- */
+        .menu-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .section-header { text-align: center; margin-bottom: 30px; }
+        .section-header h2 { color: var(--green-primary); font-size: 2rem; margin-bottom: 8px; }
+
+        .recetas-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            justify-content: center;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* TARJETAS DE RECETA */
+        .plato-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+        .receta-card-clickable {
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .receta-card-clickable:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+        .card-media {
+            width: 100%;
+            height: 200px;
+            background-color: #e2e8f0; /* Fondo gris mientras carga la imagen */
+        }
+        .card-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .card-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
+        }
+
+        /* --- MODAL (NOTAS DE RECETA) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 3000;
+            padding: 20px;
+        }
+        .modal-overlay.open {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-container {
+            background: white;
+            width: 850px;
+            max-width: 100%;
+            max-height: 85vh;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow: hidden;
+            position: relative;
+        }
+        .modal-imagen {
+            height: 100%;
+            min-height: 250px;
+            background: #e2e8f0;
+        }
+        .modal-imagen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .modal-content {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 85vh;
+        }
+        .modal-cerrar {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: #f1f1f1;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            z-index: 10;
+        }
+
+        /* FOOTER */
+        main {
+            flex: 1;
+        }
+        .main-footer {
+            background: var(--green-primary);
+         color: white;
+            padding: 30px 20px 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* --- ADAPTACIÓN A DISPOSITIVOS MÓVILES (CELULARES) --- */
+        @media (max-width: 900px) {
+            .recetas-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger { display: block; }
+            .main-nav {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                padding: 20px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            }
+            .main-nav.active { display: flex; }
+            
+            .modal-container {
+                grid-template-columns: 1fr;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+            .modal-imagen { height: 200px; }
+            .modal-content { max-height: none; }
+        }
+
+        @media (max-width: 600px) {
+            .recetas-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
 
@@ -16,7 +240,10 @@
                 <span class="logo-icon">🌱</span>
                 <span class="logo-text">Las Recetas de Ana</span>
             </div>
-            <nav class="main-nav">
+            
+            <button class="hamburger" id="hamburger-btn">☰</button>
+
+            <nav class="main-nav" id="main-nav">
                 <a href="{% url 'inicio' %}">Inicio</a>
                 <a href="{% url 'inicio' %}#menu">Menú</a>
                 <a href="{% url 'inicio' %}#nosotros">Nosotros</a>
@@ -29,32 +256,27 @@
         <section class="menu-section">
             <div class="section-header">
                 <h2>Nuestras Recetas Saludables</h2>
-                <p>Inspírate con estas preparaciones pensadas para tu bienestar</p>
+                <p>Haz clic en cualquier receta para ver los detalles completos</p>
             </div>
 
             <!-- Grilla de recetas -->
-            <div class="menu-grid">
+            <div class="recetas-grid">
                 {% for receta in recetas %}
-                    <article class="plato-card">
+                    <article class="plato-card receta-card-clickable" 
+                             data-nombre="{{ receta.nombre }}"
+                             data-ingredientes="{{ receta.ingredientes|linebreaksbr }}"
+                             data-preparacion="{{ receta.preparacion|linebreaksbr }}"
+                             data-foto="{% if receta.foto %}{{ receta.foto.url }}{% else %}https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80{% endif %}">
                         <div class="card-media">
                             {% if receta.foto %}
                                 <img src="{{ receta.foto.url }}" alt="{{ receta.nombre }}">
                             {% else %}
-                                <img src="{% static 'comidas/images/default-food.jpg' %}" alt="Receta saludable">
+                                <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80" alt="Receta saludable">
                             {% endif %}
                         </div>
                         <div class="card-content">
                             <h3>{{ receta.nombre }}</h3>
-                            
-                            <div style="margin-top: 10px;">
-                                <strong>Ingredientes:</strong>
-                                <p class="descripcion" style="white-space: pre-line;">{{ receta.ingredientes }}</p>
-                            </div>
-
-                            <div style="margin-top: 10px;">
-                                <strong>Preparación:</strong>
-                                <p class="descripcion" style="white-space: pre-line;">{{ receta.preparacion }}</p>
-                            </div>
+                            <p class="descripcion" style="margin-top: 10px; color: var(--green-primary); font-weight: 600;">Ver receta completa ›</p>
                         </div>
                     </article>
                 {% empty %}
@@ -64,18 +286,82 @@
         </section>
     </main>
 
-    <!-- FOOTER -->
-    <footer class="main-footer">
-        <div class="footer-container">
-            <div class="footer-brand">
-                <h3>🌱 Las Recetas de Ana</h3>
-                <p>Comida especializada para tu salud y estilo de vida.</p>
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-container">
+            <button class="modal-cerrar" id="modal-cerrar">&times;</button>
+            <div class="modal-imagen">
+                <img id="modal-img" src="" alt="Imagen de receta">
+            </div>
+            <div class="modal-content">
+                <h2 id="modal-titulo" style="color: var(--green-primary); margin-top: 0;"></h2>
+                
+                <div style="margin-top: 15px;">
+                    <strong style="color: var(--text-dark);">Ingredientes:</strong>
+                    <div id="modal-ingredientes" class="descripcion" style="margin-top: 5px; color: var(--text-muted);"></div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <strong style="color: var(--text-dark);">Preparación:</strong>
+                    <div id="modal-preparacion" class="descripcion" style="margin-top: 5px; color: var(--text-muted);"></div>
+                </div>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>© 2026 Las Recetas de Ana. Todos los derechos reservados.</p>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="main-footer">
+        <div class="footer-brand">
+            <h3>🌱 Las Recetas de Ana</h3>
+            <p>Comida especializada para tu salud y estilo de vida.</p>
         </div>
+        <p style="margin-top: 20px; font-size: 0.85rem; opacity: 0.8;">© 2026 Las Recetas de Ana. Todos los derechos reservados.</p>
     </footer>
 
+    <!-- SCRIPT -->
+    <script>
+        // Menú Hamburguesa
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const mainNav = document.getElementById('main-nav');
+
+        hamburgerBtn.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+        });
+
+        // Lógica del Modal
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalCerrar = document.getElementById('modal-cerrar');
+        const modalImg = document.getElementById('modal-img');
+        const modalTitulo = document.getElementById('modal-titulo');
+        const modalIngredientes = document.getElementById('modal-ingredientes');
+        const modalPreparacion = document.getElementById('modal-preparacion');
+
+        document.querySelectorAll('.receta-card-clickable').forEach(card => {
+            card.addEventListener('click', () => {
+                const nombre = card.getAttribute('data-nombre');
+                const ingredientes = card.getAttribute('data-ingredientes');
+                const preparacion = card.getAttribute('data-preparacion');
+                const foto = card.getAttribute('data-foto');
+
+                modalTitulo.textContent = nombre;
+                modalIngredientes.innerHTML = ingredientes;
+                modalPreparacion.innerHTML = preparacion;
+                modalImg.src = foto;
+
+                modalOverlay.classList.add('open');
+            });
+        });
+
+        function cerrarModal() {
+            modalOverlay.classList.remove('open');
+        }
+
+        modalCerrar.addEventListener('click', cerrarModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                cerrarModal();
+            }
+        });
+    </script>
 </body>
 </html>

@@ -100,20 +100,47 @@
 
         <!-- SECCIÓN NOSOTROS -->
         <section id="nosotros" class="about-section">
+            <!-- Columna Izquierda: Imagen y Badge de Experiencia -->
             <div class="about-image">
-                <img src="{% static 'comidas/images/ana-chef.jpg' %}" alt="Ana Cocinando">
-                <div class="badge-experience"><strong>10+</strong> años de experiencia</div>
+                <img src="{% static 'comidas/images/ana-chef.jpg' %}" alt="Ana Cocinando - Las Recetas de Ana" loading="lazy">
+                <div class="badge-experience">
+                    <strong>10+</strong>
+                    <span>años de experiencia</span>
+                </div>
             </div>
+
+            <!-- Columna Derecha: Información y Estadísticas -->
             <div class="about-info">
                 <span class="sub-tag">🌱 Sobre Nosotros</span>
+                
                 <h2>La cocina de Ana, hecha con pasión y ciencia</h2>
-                <p>Soy Ana Martínez, nutricionista y cocinera apasionada. Fundé Las Recetas de Ana con una misión clara: demostrar que comer saludable no tiene que ser aburrido ni difícil.</p>
-                <p>Con más de 10 años de experiencia en nutrición clínica y gastronomía saludable, diseño cada plato pensando en tu bienestar.</p>
+                
+                <p>
+                    Este es un emprendimiento familiar que nació en homenaje a Ana, mi mamá, una gran cocinera y, sobre todo, una mujer que entendía que cocinar era mucho más que preparar comida.
+                    Ana tenía un secreto que hacía especiales todos sus platos: además de las especias, les agregaba algo que nunca podía faltar… mucho amor.
+                </p>
+                
+                <p>
+                    Hoy queremos mantener viva esa manera de cocinar. Por eso, cada una de nuestras comidas busca recuperar ese sabor de lo casero, lo rico y lo hecho con dedicación, combinándolo con una propuesta saludable pensada para acompañarte todos los días.
+                    Porque detrás de cada vianda hay una familia, una historia y una manera de entender la cocina: cocinar para otros como si estuviéramos cocinando para quienes más queremos.
+                    Este negocio es nuestro homenaje a Ana y a ese ingrediente que nunca aparece en ninguna receta, pero que puede transformar cualquier plato: el amor.
+                </p>
+
                 <div class="about-stats">
-                    <div><strong>20+</strong><span>Planes especializados</span></div>
-                    <div><strong>500+</strong><span>Clientes activos</span></div>
-                    <div><strong>98%</strong><span>Satisfacción</span></div>
+                    <div class="stat-item">
+                        <strong>20+</strong>
+                        <span>Planes especializados</span>
+                    </div>
+                    <div class="stat-item">
+                        <strong>500+</strong>
+                        <span>Clientes activos</span>
+                    </div>
+                    <div class="stat-item">
+                        <strong>98%</strong>
+                        <span>Satisfacción</span>
+                    </div>
                 </div>
+
                 <a href="#menu" class="btn-primary-green">Ver el menú completo ›</a>
             </div>
         </section>
