@@ -13,15 +13,19 @@
     <header class="main-header">
         <div class="header-container">
             <div class="logo">
-                <span class="logo-icon">🌱</span>
-                <span class="logo-text">Las Recetas de Ana</span>
+                <div class="logo">
+                    <img src="{% static 'comidas/imagenes/icon.jpg' %}" alt="Logo" class="logo-icon-img">
+                    <span class="logo-text">Las Recetas de Ana</span>
+                </div>
             </div>
-                <nav class="main-nav">
-                    <a href="{% url 'inicio' %}#menu">Menú</a>
-                    <a href="{% url 'inicio' %}#nosotros">Nosotros</a>
-                    <a href="{% url 'inicio' %}#resenas">Reseñas</a>
-                    <a href="{% url 'lista_recetas' %}">Recetas</a> <!-- Pestaña nueva -->
-                </nav>
+
+            <nav class="main-nav" id="main-nav">
+                <a href="{% url 'inicio' %}#menu">Menú</a>
+                <a href="{% url 'inicio' %}#nosotros">Nosotros</a>
+                <a href="{% url 'inicio' %}#resenas">Reseñas</a>
+                <a href="{% url 'lista_recetas' %}">Recetas</a>
+            </nav>
+            
             <div class="carrito-box" id="btn-abrir-carrito">
                 🛒 <span id="contador-carrito">0</span>
             </div>
@@ -59,14 +63,24 @@
                 <button class="filter-btn active" data-filtro="todos">🌱 Todos</button>
                 <button class="filter-btn" data-filtro="diabetes">🩺 Diabetes</button>
                 <button class="filter-btn" data-filtro="hipertension">❤️ Hipertensión</button>
-                <button class="filter-btn" data-filtro="veganos">🥦 Veganos</button>
+                <button class="filter-btn" data-filtro="higado_graso">🫀 Hígado graso</button>
+                <button class="filter-btn" data-filtro="colon_irritable">🌀 Colon irritable</button>
+                <button class="filter-btn" data-filtro="proteica">💪 Proteica</button>
+                <button class="filter-btn" data-filtro="vegano">🥦 Vegano</button>
+                <button class="filter-btn" data-filtro="vegetariano">🥗 Vegetariano</button>
                 <button class="filter-btn" data-filtro="keto">🥑 Keto</button>
+                <button class="filter-btn" data-filtro="pollo">🍗 Pollo</button>
+                <button class="filter-btn" data-filtro="pescado">🐟 Pescado</button>
+                <button class="filter-btn" data-filtro="carne_roja">🥩 Carnes rojas</button>
             </div>
 
             <!-- Grilla de platos dinámicos -->
             <div class="menu-grid">
                 {% for plato in platos %}
-                    <article class="plato-card" data-condicion="{{ plato.condicion_salud }}" data-estilo="{{ plato.estilo_vida }}">
+                    <article class="plato-card" 
+                             data-condicion="{{ plato.condicion_salud }}" 
+                             data-estilo="{{ plato.estilo_vida }}" 
+                             data-tipo="{{ plato.tipo_plato }}">
                         <div class="card-media">
                             {% if plato.imagen %}
                                 <img src="{{ plato.imagen.url }}" alt="{{ plato.nombre }}">
@@ -83,49 +97,110 @@
                             {% endif %}
 
                             <div class="card-footer">
-                                <span class="precio">${{ plato.precio }}</span>
-                                <button class="btn-agregar" 
-                                        data-nombre="{{ plato.nombre }}" 
-                                        data-precio="{{ plato.precio }}">
+                                <span class="precio">${{ plato.precio_total }}</span>
+                                <button class="btn-agregar" data-nombre="{{ plato.nombre }}" data-precio="{{ plato.precio_total }}">
                                     + Agregar
                                 </button>
                             </div>
                         </div>
                     </article>
                 {% empty %}
-                    <p class="no-platos">No hay platos disponibles por el momento.</p>
+                    <p class="no-platos" style="grid-column: 1 / -1; text-align: center;">No hay platos disponibles por el momento.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- SECCIÓN DE MENÚS ESPECIALES -->
+        <section id="menus-especiales" class="menu-section" style="background-color: #f4f8f4; padding: 40px 20px; border-radius: 16px; margin: 40px auto;">
+            <div class="section-header">
+                <h2>Nuestros Menús Especiales</h2>
+                <p>Pack de viandas armadas con opciones saludables y envío según corresponda</p>
+            </div>
+
+            <!-- Grilla de Menús -->
+            <div class="menu-grid">
+                {% for menu in menus_especiales %}
+                    <article class="plato-card">
+                        <div class="card-media">
+                            {% if menu.imagen %}
+                                <img src="{{ menu.imagen.url }}" alt="{{ menu.nombre }}">
+                            {% else %}
+                                <img src="{% static 'comidas/images/default-food.jpg' %}" alt="Menú saludable">
+                            {% endif %} 
+                            <span class="badge-calorias" style="background: var(--green-light); color: var(--green-primary);">📦 {{ menu.cantidad_platos }} Viandas</span>
+                        </div>
+                        <div class="card-content">
+                            <h3>{{ menu.nombre }}</h3>
+                            <p class="descripcion" style="white-space: pre-line;">{{ menu.descripcion }}</p>
+
+                            {% if menu.envio_incluido %}
+                                <span class="tag-etiqueta" style="background: #e6f4ea; color: #137333;">🚚 Envío Sin Cargo</span>
+                            {% endif %}
+
+                            <div class="card-footer">
+                                <span class="precio">${{ menu.precio_total }}</span>
+                                <button class="btn-agregar" data-nombre="Menú: {{ menu.nombre }}" data-precio="{{ menu.precio_total }}">
+                                    + Agregar Menú
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                {% empty %}
+                    <p class="no-platos" style="grid-column: 1 / -1; text-align: center;">No hay menús especiales disponibles por el momento.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- SECCIÓN SERVICIOS -->
+        <section id="servicios" class="menu-section" style="padding: 60px 20px;">
+            <div class="section-header">
+                <h2>Nuestros Servicios</h2>
+                <p>Soluciones personalizadas para empresas y los más pequeños</p>
+            </div>
+
+            <div class="menu-grid">
+                {% for servicio in servicios %}
+                    <article class="plato-card">
+                        <div class="card-media">
+                            {% if servicio.imagen %}
+                                <img src="{{ servicio.imagen.url }}" alt="{{ servicio.nombre }}">
+                            {% else %}
+                                <img src="{% static 'comidas/images/default-food.jpg' %}" alt="Servicio">
+                            {% endif %}
+                        </div>
+                        <div class="card-content">
+                            <h3>{{ servicio.nombre }}</h3>
+                            <p class="descripcion">{{ servicio.descripcion }}</p>
+                            <div class="card-footer">
+                                <span class="precio">Desde ${{ servicio.precio_total }}</span>
+                                <a href="https://wa.me/5491100000000?text=Hola, quiero consultar por el servicio de {{ servicio.nombre }}" 
+                                target="_blank" class="btn-primary-green">Consultar</a>
+                            </div>
+                        </div>
+                    </article>
                 {% endfor %}
             </div>
         </section>
 
         <!-- SECCIÓN NOSOTROS -->
         <section id="nosotros" class="about-section">
-            <!-- Columna Izquierda: Imagen y Badge de Experiencia -->
             <div class="about-image">
-                <img src="{% static 'comidas/images/ana-chef.jpg' %}" alt="Ana Cocinando - Las Recetas de Ana" loading="lazy">
+                <img src="{% static 'comidas/imagenes/mati-chef.jpg' %}" alt="Mati Cocinando - Las Recetas de Ana" loading="lazy">
                 <div class="badge-experience">
                     <strong>10+</strong>
                     <span>años de experiencia</span>
                 </div>
             </div>
-
-            <!-- Columna Derecha: Información y Estadísticas -->
             <div class="about-info">
                 <span class="sub-tag">🌱 Sobre Nosotros</span>
-                
-                <h2>La cocina de Ana, hecha con pasión y ciencia</h2>
-                
+                <h2>Las recetas de Ana, preparadas por Matilde</h2>
                 <p>
                     Este es un emprendimiento familiar que nació en homenaje a Ana, mi mamá, una gran cocinera y, sobre todo, una mujer que entendía que cocinar era mucho más que preparar comida.
                     Ana tenía un secreto que hacía especiales todos sus platos: además de las especias, les agregaba algo que nunca podía faltar… mucho amor.
                 </p>
-                
                 <p>
                     Hoy queremos mantener viva esa manera de cocinar. Por eso, cada una de nuestras comidas busca recuperar ese sabor de lo casero, lo rico y lo hecho con dedicación, combinándolo con una propuesta saludable pensada para acompañarte todos los días.
-                    Porque detrás de cada vianda hay una familia, una historia y una manera de entender la cocina: cocinar para otros como si estuviéramos cocinando para quienes más queremos.
-                    Este negocio es nuestro homenaje a Ana y a ese ingrediente que nunca aparece en ninguna receta, pero que puede transformar cualquier plato: el amor.
                 </p>
-
                 <div class="about-stats">
                     <div class="stat-item">
                         <strong>20+</strong>
@@ -140,7 +215,6 @@
                         <span>Satisfacción</span>
                     </div>
                 </div>
-
                 <a href="#menu" class="btn-primary-green">Ver el menú completo ›</a>
             </div>
         </section>
@@ -154,21 +228,21 @@
             </div>
             <div class="reviews-grid">
                 <div class="review-card">
-                    <p>“Llevo 3 meses pidiendo la comida para diabéticos y mis niveles de glucosa mejoraron notablemente. ¡100% recomendado!”</p>
+                    <p>"Llevo 3 meses pidiendo la comida para diabéticos y mis niveles de glucosa mejoraron notablemente. ¡100% recomendado!"</p>
                     <div class="user-info">
                         <div class="avatar">MG</div>
                         <div><strong>María González</strong><br><small>Hace 2 semanas</small></div>
                     </div>
                 </div>
                 <div class="review-card">
-                    <p>“Soy deportista y el bowl post-entreno es increíble. Los macros son perfectos y el sabor no tiene comparación.”</p>
+                    <p>"Soy deportista y el bowl post-entreno es increíble. Los macros son perfectos y el sabor no tiene comparación."</p>
                     <div class="user-info">
                         <div class="avatar">CR</div>
                         <div><strong>Carlos Ramírez</strong><br><small>Hace 1 mes</small></div>
                     </div>
                 </div>
                 <div class="review-card">
-                    <p>“Empecé con el plan keto hace dos meses. He bajado 8 kilos y me siento con más energía que nunca.”</p>
+                    <p>"Empecé con el plan keto hace dos meses. He bajado 8 kilos y me siento con más energía que nunca."</p>
                     <div class="user-info">
                         <div class="avatar">LH</div>
                         <div><strong>Luisa Herrera</strong><br><small>Hace 3 semanas</small></div>
@@ -178,7 +252,7 @@
         </section>
     </main>
 
-    <!-- FOOTER -->
+    <!-- FOOTER MODERNO -->
     <footer class="main-footer">
         <div class="footer-container">
             <div class="footer-brand">
@@ -190,11 +264,11 @@
                 <a href="#menu">Menú</a>
                 <a href="#nosotros">Nosotros</a>
                 <a href="#resenas">Reseñas</a>
+                <a href="{% url 'lista_recetas' %}">Recetas</a>
             </div>
             <div class="footer-contact">
                 <h4>Contacto</h4>
-                <p>💬 <a href="https://wa.me/tu_numero" target="_blank">WhatsApp</a></p>
-                <p>📷 Instagram: @lasrecetasdeana</p>
+                <p>💬 <a href="https://wa.me/5491139315332?text=Hola!%20Quiero%20consultar%20sobre%20las%20viandas." target="_blank" rel="noopener noreferrer">WhatsApp: 11 3931-5332</a></p>                <p>📷 Instagram: @lasrecetasdeana</p>
                 <p>✉️ lasrecetasdeana@gmail.com</p>
             </div>
         </div>
@@ -229,8 +303,32 @@
         </div>
     </div>
 
-    <!-- SCRIPT DE INTERACTIVIDAD Y CARRITO -->
+    <!-- SCRIPT DE FILTROS Y CARRITO -->
     <script>
+        // Lógica de Filtros por Categoría
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                const filtro = button.getAttribute('data-filtro');
+                const platos = document.querySelectorAll('.plato-card');
+
+                platos.forEach(plato => {
+                    const condicion = plato.getAttribute('data-condicion');
+                    const estilo = plato.getAttribute('data-estilo');
+                    const tipo = plato.getAttribute('data-tipo');
+
+                    if (filtro === 'todos' || condicion === filtro || estilo === filtro || tipo === filtro) {
+                        plato.style.display = 'flex';
+                    } else {
+                        plato.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Lógica del Carrito
         let carrito = [];
 
         const carritoBox = document.getElementById('btn-abrir-carrito');
@@ -245,7 +343,6 @@
         const btnEnviarWhatsapp = document.getElementById('btn-enviar-whatsapp');
         const btnVaciarCarrito = document.getElementById('btn-vaciar-carrito');
 
-        // Abrir / Cerrar carrito
         carritoBox.addEventListener('click', () => {
             carritoDrawer.classList.add('open');
             carritoOverlay.classList.add('open');
@@ -259,7 +356,6 @@
             carritoOverlay.classList.remove('open');
         }
 
-        // Agregar platos
         document.querySelectorAll('.btn-agregar').forEach(boton => {
             boton.addEventListener('click', (e) => {
                 const nombre = e.target.getAttribute('data-nombre');
@@ -334,7 +430,6 @@
             actualizarCarrito();
         });
 
-        // Enviar pedido a WhatsApp
         btnEnviarWhatsapp.addEventListener('click', () => {
             if (carrito.length === 0) return;
 
@@ -350,8 +445,7 @@
             mensaje += `\n*Total a pagar: $${total.toFixed(2)}*`;
             mensaje += `\n\nQuedo atento/a para coordinar el pago y envío. ¡Gracias!`;
 
-            // Reemplaza con tu número de teléfono de WhatsApp (incluyendo código de país, sin el símbolo +)
-            let numeroWhatsApp = "5491100000000"; 
+            let numeroWhatsApp = "549113931-5332"; 
             let url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
             window.open(url, '_blank');
         });

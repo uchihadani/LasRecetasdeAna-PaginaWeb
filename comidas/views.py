@@ -1,14 +1,12 @@
 from django.shortcuts import render
-from .models import Plato, Receta, Combo
+from .models import Plato, Receta, MenuEspecial, Servicio
 
-# Create your views here.
-def inicio(_request):
-    """Display the welcome page for Ana's recipes."""
-    platos = Plato._default_manager.all()
-    combos = Combo._default_manager.all()
-    return render(_request, 'comidas/index.html', {'platos': platos, 'combos': combos})
+def inicio(request):
+    return render(request, 'comidas/index.html', {
+        'platos': Plato.objects.all(),  # pylint: disable=no-member
+        'menus_especiales': MenuEspecial.objects.all(),  # pylint: disable=no-member
+        'servicios': Servicio.objects.all() # pylint: disable=no-member
+    })
 
-def lista_recetas(_request):
-    """Display the list of recipes."""
-    recetas = Receta._default_manager.all()
-    return render(_request, 'comidas/recetas.html', {'recetas': recetas})
+def lista_recetas(request):
+    return render(request, 'comidas/recetas.html', {'recetas': Receta.objects.all()})  # pylint: disable=no-member

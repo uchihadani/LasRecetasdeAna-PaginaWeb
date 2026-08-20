@@ -25,7 +25,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow-x: hidden; /* Evita el scroll horizontal en celulares */
+    overflow-x: hidden;
 }
 
 main { 
@@ -54,6 +54,21 @@ main {
     gap: 15px;
 }
 
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-icon-img {
+    width: 45px !important;
+    height: 45px !important;
+    max-width: 45px !important;
+    max-height: 45px !important;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
 .logo-text { 
     font-weight: bold; 
     font-size: 1.2rem; 
@@ -62,7 +77,7 @@ main {
 
 .main-nav { 
     display: flex; 
-    gap: 15px; 
+    gap: 20px; 
     align-items: center; 
 }
 
@@ -71,6 +86,11 @@ main {
     color: var(--text-dark); 
     font-weight: 500; 
     font-size: 0.95rem; 
+    transition: color 0.2s;
+}
+
+.main-nav a:hover {
+    color: var(--green-primary);
 }
 
 .carrito-box {
@@ -172,7 +192,7 @@ main {
    ========================================== */
 .menu-section {
     position: relative;
-    z-index: 5; /* Asegura prioridad sobre elementos inferiores */
+    z-index: 5;
     max-width: 1200px;
     margin: 50px auto;
     padding: 0 20px;
@@ -300,7 +320,7 @@ main {
 }
 
 /* ==========================================
-   5. SECCIÓN SOBRE NOSOTROS (CORREGIDO)
+   5. SECCIÓN SOBRE NOSOTROS
    ========================================== */
 .about-section {
     max-width: 1200px;
@@ -313,13 +333,12 @@ main {
     position: relative;
 }
 
-/* Contenedor de Imagen con dimensiones reservadas */
 .about-image {
     position: relative;
     width: 100%;
-    min-height: 400px; /* Reserva el espacio vertical incluso si la foto no carga */
-    aspect-ratio: 4 / 5; /* Mantiene la proporción ideal */
-    background-color: #e2e8f0; /* Fondo gris mientras carga la foto */
+    min-height: 400px;
+    aspect-ratio: 4 / 5;
+    background-color: #e2e8f0;
     border-radius: 20px;
     overflow: hidden;
     display: flex;
@@ -334,7 +353,6 @@ main {
     display: block;
 }
 
-/* Badge Flotante anclado abajo a la derecha */
 .badge-experience {
     position: absolute;
     bottom: 20px;
@@ -360,7 +378,6 @@ main {
     white-space: nowrap;
 }
 
-/* Información y Texto */
 .about-info {
     display: flex;
     flex-direction: column;
@@ -390,7 +407,6 @@ main {
     opacity: 0.9;
 }
 
-/* Tarjetas de Estadísticas */
 .about-stats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -419,7 +435,6 @@ main {
     color: var(--text-muted);
 }
 
-/* Botón Ver Menú */
 .btn-primary-green {
     background: var(--green-primary);
     color: white;
@@ -481,7 +496,25 @@ main {
 /* ==========================================
    7. CARRITO LATERAL (DRAWER)
    ========================================== */
-.carrito-overlay {
+.carrito-header {
+    padding: 20px;
+    background: #fafcfb;
+    border-bottom: 1px solid #edf2f7;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;            
+}
+
+.carrito-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--green-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+}
+
+   .carrito-overlay {
     position: fixed; 
     top: 0; 
     left: 0; 
@@ -549,56 +582,126 @@ main {
     cursor: pointer; 
 }
 
+.btn-cerrar-carrito {
+    background: #f1f5f9;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dark);
+    margin-right: 25px; 
+    transition: background 0.2s ease, transform 0.2s ease, color 0.2s ease;
+}
+
+.btn-cerrar-carrito:hover {
+    background: var(--orange-primary);
+    color: #ffffff;
+    transform: rotate(90deg);
+}
+
 /* ==========================================
-   8. FOOTER
+   8. FOOTER MODERNO
    ========================================== */
-.main-footer { 
-    background: var(--green-primary); 
-    color: white; 
-    padding: 40px 20px 20px; 
-    margin-top: auto; 
+.main-footer {
+    background-color: var(--green-dark); 
+    color: #e2e8f0; 
+    padding: 60px 20px 20px 20px;
+    margin-top: 80px;
+    border-top: 4px solid var(--green-primary);
 }
 
-.footer-container { 
-    max-width: 1200px; 
-    margin: 0 auto; 
-    display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-    gap: 30px; 
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.footer-nav a, .footer-contact a { 
-    display: block; 
-    color: white; 
-    text-decoration: none; 
-    margin-bottom: 8px; 
-    opacity: 0.8; 
+.footer-brand h3 {
+    color: #ffffff;
+    font-size: 1.3rem;
+    margin-bottom: 12px;
 }
 
-.footer-bottom { 
-    text-align: center; 
-    margin-top: 30px; 
-    border-top: 1px solid rgba(255,255,255,0.1); 
-    padding-top: 15px; 
-    font-size: 0.85rem; 
-    opacity: 0.7; 
+.footer-brand p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #cbd5e1;
+    max-width: 320px;
+}
+
+.footer-nav h4, .footer-contact h4 {
+    color: #ffffff;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.footer-nav h4::after, .footer-contact h4::after {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 2px;
+    background-color: var(--orange-primary);
+    margin-top: 6px;
+    border-radius: 2px;
+}
+
+.footer-nav a, .footer-contact a, .footer-contact p {
+    display: block;
+    color: #cbd5e1;
+    text-decoration: none;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.footer-nav a:hover, .footer-contact a:hover {
+    color: #a3e635; 
+    transform: translateX(4px); 
+}
+
+.footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 25px;
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+@media (max-width: 768px) {
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        text-align: left;
+    }
 }
 
 /* ==========================================
-   9. MEDIA QUERIES (RESPONSIVE MÓVIL Y TABLET)
+   9. MEDIA QUERIES (RESPONSIVE)
    ========================================== */
 @media (max-width: 768px) {
     .header-container { 
-        flex-direction: column; 
-        text-align: center; 
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px;
     }
-    
-    .main-nav { 
-        flex-wrap: wrap; 
-        justify-content: center; 
-        font-size: 0.85rem; 
+
+    .main-nav {
+        font-size: 0.85rem;
+        gap: 12px;
     }
-    
+
     .hero-section { 
         padding: 25px 15px; 
         margin: 10px; 
@@ -620,7 +723,7 @@ main {
 
 @media (max-width: 600px) {
     .about-stats {
-        grid-template-columns: 1fr; /* Estadísticas verticales en celulares chicos */
+        grid-template-columns: 1fr;
     }
     
     .btn-primary-green {

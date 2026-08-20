@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-pgfa+z#dff#tal+tt5g4clxabb!sq)6*jr3(7ez%lhl$2&!&fw
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'formatting-even-admit-hours.trycloudflare.com',
+    'adjacent-following-generally-voice.trycloudflare.com',
     'localhost',
     '127.0.0.1'
 ]
@@ -39,6 +39,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
